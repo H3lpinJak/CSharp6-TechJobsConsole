@@ -2,8 +2,8 @@
 
 namespace TechJobsConsoleAutograded6
 {
-	public class TechJobs
-	{
+    public class TechJobs
+    {
         public void RunProgram()
         {
             // Create two Dictionary vars to hold info for menu and data
@@ -26,7 +26,6 @@ namespace TechJobsConsoleAutograded6
             // Allow user to search/list until they manually quit with ctrl+c
             while (true)
             {
-
                 string actionChoice = GetUserSelection("View Jobs", actionChoices);
 
                 if (actionChoice == null)
@@ -45,7 +44,12 @@ namespace TechJobsConsoleAutograded6
                     {
                         List<string> results = JobData.FindAll(columnChoice);
 
-                        Console.WriteLine(Environment.NewLine + "*** All " + columnChoices[columnChoice] + " Values ***");
+                        Console.WriteLine(
+                            Environment.NewLine
+                                + "*** All "
+                                + columnChoices[columnChoice]
+                                + " Values ***"
+                        );
                         foreach (string item in results)
                         {
                             Console.WriteLine(item);
@@ -68,11 +72,11 @@ namespace TechJobsConsoleAutograded6
                     }
                     else
                     {
-                        List<Dictionary<string, string>> searchResults = JobData.FindByColumnAndValue(columnChoice, searchTerm);
+                        List<Dictionary<string, string>> searchResults =
+                            JobData.FindByColumnAndValue(columnChoice, searchTerm);
                         PrintJobs(searchResults);
                     }
                 }
-
             }
         }
 
@@ -96,7 +100,9 @@ namespace TechJobsConsoleAutograded6
             {
                 if (choiceHeader.Equals("View Jobs"))
                 {
-                    Console.WriteLine(Environment.NewLine + choiceHeader + " by (type 'x' to quit):");
+                    Console.WriteLine(
+                        Environment.NewLine + choiceHeader + " by (type 'x' to quit):"
+                    );
                 }
                 else
                 {
@@ -126,17 +132,38 @@ namespace TechJobsConsoleAutograded6
                 {
                     isValidChoice = true;
                 }
-
             } while (!isValidChoice);
 
             return choiceKeys[choiceIdx];
         }
 
         // TODO: complete the PrintJobs method.
+        // TODO: complete the PrintJobs method.
         public void PrintJobs(List<Dictionary<string, string>> someJobs)
         {
-            Console.WriteLine("PrintJobs is not implemented yet");
+            // Check if there are any jobs to print
+            if (someJobs == null || someJobs.Count == 0)
+            {
+                Console.WriteLine("No results.");
+                return;
+            }
+
+            // Iterate through each job dictionary and print its attributes
+            foreach (Dictionary<string, string> job in someJobs)
+            {
+                Console.WriteLine("**********");
+
+                // Print each attribute of the job
+                Console.WriteLine(
+                    $"position type: {job["position type"]} / {job["core competency"]}"
+                );
+                Console.WriteLine($"name: {job["name"]}");
+                Console.WriteLine($"employer: {job["employer"]}");
+                Console.WriteLine($"location: {job["location"]}");
+                Console.WriteLine($"core competency: {job["core competency"]}");
+
+                Console.WriteLine("**********");
+            }
         }
     }
 }
-

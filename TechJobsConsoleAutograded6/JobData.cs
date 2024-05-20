@@ -3,8 +3,8 @@ using System.Text;
 
 namespace TechJobsConsoleAutograded6
 {
-	public class JobData
-	{
+    public class JobData
+    {
         static List<Dictionary<string, string>> AllJobs = new List<Dictionary<string, string>>();
         static bool IsDataLoaded = false;
 
@@ -41,13 +41,27 @@ namespace TechJobsConsoleAutograded6
          * Search all columns for the given term
          */
 
-        //TODO: Complete the FindByValue method
+        // Complete the FindByValue method
         public static List<Dictionary<string, string>> FindByValue(string value)
         {
-            // load data, if not already loaded
+            // Load data, if not already loaded
             LoadData();
 
-            return null;
+            List<Dictionary<string, string>> foundJobs = new List<Dictionary<string, string>>();
+
+            foreach (Dictionary<string, string> job in AllJobs)
+            {
+                foreach (KeyValuePair<string, string> pair in job)
+                {
+                    if (pair.Value.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0 && !foundJobs.Contains(job))
+                    {
+                        foundJobs.Add(job);
+                        break;
+                    }
+                }
+            }
+
+            return foundJobs;
         }
 
         /**
@@ -59,7 +73,7 @@ namespace TechJobsConsoleAutograded6
          */
         public static List<Dictionary<string, string>> FindByColumnAndValue(string column, string value)
         {
-            // load data, if not already loaded
+            // Load data, if not already loaded
             LoadData();
 
             List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>();
@@ -68,9 +82,8 @@ namespace TechJobsConsoleAutograded6
             {
                 string aValue = row[column];
 
-
-                //TODO: Make search case-insensitive
-                if (aValue.Contains(value))
+                // Make search case-insensitive
+                if (aValue.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     jobs.Add(row);
                 }
@@ -97,10 +110,10 @@ namespace TechJobsConsoleAutograded6
                 while (reader.Peek() >= 0)
                 {
                     string line = reader.ReadLine();
-                    string[] rowArrray = CSVRowToStringArray(line);
-                    if (rowArrray.Length > 0)
+                    string[] rowArray = CSVRowToStringArray(line);
+                    if (rowArray.Length > 0)
                     {
-                        rows.Add(rowArrray);
+                        rows.Add(rowArray);
                     }
                 }
             }
@@ -161,4 +174,3 @@ namespace TechJobsConsoleAutograded6
         }
     }
 }
-
