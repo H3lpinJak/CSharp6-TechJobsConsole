@@ -8,6 +8,11 @@ namespace TechJobsConsoleAutograded6
         static List<Dictionary<string, string>> AllJobs = new List<Dictionary<string, string>>();
         static bool IsDataLoaded = false;
 
+        public static List<Dictionary<string,string>> FindAll()
+        {
+            LoadData();
+            return AllJobs;
+        }
         public static List<string> FindAll(string column)
         {
             LoadData();
@@ -27,7 +32,6 @@ namespace TechJobsConsoleAutograded6
             return values;
         }
 
-        // Search all columns for the given term
         public static List<Dictionary<string, string>> FindByValue(string value)
         {
             LoadData();
@@ -40,7 +44,8 @@ namespace TechJobsConsoleAutograded6
 
                 foreach (KeyValuePair<string, string> pair in job)
                 {
-                    if (pair.Value.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0)
+                    // Case-insensitive comparison
+                    if (pair.Value.Equals(value, StringComparison.OrdinalIgnoreCase))
                     {
                         jobFound = true;
                         break;
@@ -56,8 +61,6 @@ namespace TechJobsConsoleAutograded6
             return foundJobs;
         }
 
-        // Returns results of search the jobs data by key/value, using inclusion of the search term.
-        // For example, searching for employer "Enterprise" will include results with "Enterprise Holdings, Inc".
         public static List<Dictionary<string, string>> FindByColumnAndValue(
             string column,
             string value
@@ -72,7 +75,7 @@ namespace TechJobsConsoleAutograded6
                 string aValue = row[column];
 
                 // Make search case-insensitive
-                if (aValue.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0)
+                if (aValue.Equals(value, StringComparison.OrdinalIgnoreCase))
                 {
                     jobs.Add(row);
                 }
@@ -107,7 +110,6 @@ namespace TechJobsConsoleAutograded6
             string[] headers = rows[0];
             rows.Remove(headers);
 
-            // Parse each row array into a more friendly Dictionary
             foreach (string[] row in rows)
             {
                 Dictionary<string, string> rowDict = new Dictionary<string, string>();
@@ -122,7 +124,6 @@ namespace TechJobsConsoleAutograded6
             IsDataLoaded = true;
         }
 
-        // Parse a single line of a CSV file into a string array
         private static string[] CSVRowToStringArray(
             string row,
             char fieldSeparator = ',',

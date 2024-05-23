@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using TechJobsConsoleAutograded6;
 
 namespace TechJobsConsoleAutograded6
 {
@@ -22,7 +21,7 @@ namespace TechJobsConsoleAutograded6
             columnChoices.Add("position type", "Position Type");
             columnChoices.Add("all", "All");
 
-            Console.WriteLine();
+            Console.WriteLine("Welcome to LaunchCode's TechJobs App!");
 
             // Allow user to search/list until they manually quit with ctrl+c
             while (true)
@@ -57,20 +56,30 @@ namespace TechJobsConsoleAutograded6
                         }
                     }
                 }
-                else // choice is "search"
+                else
                 {
                     string columnChoice = GetUserSelection("Search", columnChoices);
 
-                    // What is their search term?
                     Console.WriteLine(Environment.NewLine + "Search term: ");
-                    string searchTerm = Console.ReadLine();
+                    string searchTerm = Console.ReadLine().ToLower();
 
-                    // Fetch results
                     if (columnChoice.Equals("all"))
                     {
-                        List<Dictionary<string, string>> searchResults = JobData.FindByValue(
-                            searchTerm
+                        List<Dictionary<string, string>> searchResults = JobData.FindAll(
+                            (Dictionary<string, string> item) =>
+                            {
+                                foreach (KeyValuePair<string, string> field in item)
+                                {
+                                    if (field.Value.ToLower().Contains(searchTerm))
+                                    {
+                                        return true;
+                                    }
+                                }
+                                return false;
+                            }
                         );
+
+                        //Fix line 68 - 70. Searching for Ruby for all field and only finding 2 out of 4 results.
                         PrintJobs(searchResults);
                     }
                     else
@@ -82,10 +91,6 @@ namespace TechJobsConsoleAutograded6
                 }
             }
         }
-
-        /*
-         * Returns the key of the selected item from the choices Dictionary
-         */
         public string GetUserSelection(string choiceHeader, Dictionary<string, string> choices)
         {
             int choiceIdx;
@@ -146,25 +151,20 @@ namespace TechJobsConsoleAutograded6
             // Check if there are any jobs to print
             if (someJobs == null || someJobs.Count == 0)
             {
-                Console.WriteLine("No results.");
+                Console.WriteLine("No results");
                 return;
             }
 
             // Iterate through each job dictionary and print its attributes
             foreach (Dictionary<string, string> job in someJobs)
             {
-                Console.WriteLine("**********");
-
-                // Print each attribute of the job
-                Console.WriteLine(
-                    $"position type: {job["position type"]} / {job["core competency"]}"
-                );
+                Console.WriteLine(Environment.NewLine + "*****");
                 Console.WriteLine($"name: {job["name"]}");
                 Console.WriteLine($"employer: {job["employer"]}");
                 Console.WriteLine($"location: {job["location"]}");
+                Console.WriteLine($"position type: {job["position type"]}");
                 Console.WriteLine($"core competency: {job["core competency"]}");
-
-                Console.WriteLine("**********");
+                Console.WriteLine("*****");
             }
         }
     }
