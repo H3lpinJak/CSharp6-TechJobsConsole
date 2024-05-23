@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace TechJobsConsoleAutograded6
 {
@@ -21,7 +22,7 @@ namespace TechJobsConsoleAutograded6
             columnChoices.Add("position type", "Position Type");
             columnChoices.Add("all", "All");
 
-            Console.WriteLine("Welcome to LaunchCode's TechJobs App!");
+            Console.WriteLine();
 
             // Allow user to search/list until they manually quit with ctrl+c
             while (true)
@@ -58,7 +59,6 @@ namespace TechJobsConsoleAutograded6
                 }
                 else // choice is "search"
                 {
-                    // How does the user want to search (e.g. by skill or employer)
                     string columnChoice = GetUserSelection("Search", columnChoices);
 
                     // What is their search term?
@@ -68,7 +68,10 @@ namespace TechJobsConsoleAutograded6
                     // Fetch results
                     if (columnChoice.Equals("all"))
                     {
-                        Console.WriteLine("Search all fields not yet implemented.");
+                        List<Dictionary<string, string>> searchResults = JobData.FindByValue(
+                            searchTerm
+                        );
+                        PrintJobs(searchResults);
                     }
                     else
                     {
@@ -137,7 +140,6 @@ namespace TechJobsConsoleAutograded6
             return choiceKeys[choiceIdx];
         }
 
-        // TODO: complete the PrintJobs method.
         // TODO: complete the PrintJobs method.
         public void PrintJobs(List<Dictionary<string, string>> someJobs)
         {

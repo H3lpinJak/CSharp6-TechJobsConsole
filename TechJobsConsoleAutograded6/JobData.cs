@@ -8,16 +8,6 @@ namespace TechJobsConsoleAutograded6
         static List<Dictionary<string, string>> AllJobs = new List<Dictionary<string, string>>();
         static bool IsDataLoaded = false;
 
-        public static List<Dictionary<string, string>> FindAll()
-        {
-            LoadData();
-            return AllJobs;
-        }
-
-        /*
-         * Returns a list of all values contained in a given column,
-         * without duplicates. 
-         */
         public static List<string> FindAll(string column)
         {
             LoadData();
@@ -37,43 +27,42 @@ namespace TechJobsConsoleAutograded6
             return values;
         }
 
-        /**
-         * Search all columns for the given term
-         */
-
-        // Complete the FindByValue method
+        // Search all columns for the given term
         public static List<Dictionary<string, string>> FindByValue(string value)
         {
-            // Load data, if not already loaded
             LoadData();
 
             List<Dictionary<string, string>> foundJobs = new List<Dictionary<string, string>>();
 
             foreach (Dictionary<string, string> job in AllJobs)
             {
+                bool jobFound = false;
+
                 foreach (KeyValuePair<string, string> pair in job)
                 {
-                    if (pair.Value.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0 && !foundJobs.Contains(job))
+                    if (pair.Value.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0)
                     {
-                        foundJobs.Add(job);
+                        jobFound = true;
                         break;
                     }
+                }
+
+                if (jobFound && !foundJobs.Any(j => j.SequenceEqual(job)))
+                {
+                    foundJobs.Add(job);
                 }
             }
 
             return foundJobs;
         }
 
-        /**
-         * Returns results of search the jobs data by key/value, using
-         * inclusion of the search term.
-         *
-         * For example, searching for employer "Enterprise" will include results
-         * with "Enterprise Holdings, Inc".
-         */
-        public static List<Dictionary<string, string>> FindByColumnAndValue(string column, string value)
+        // Returns results of search the jobs data by key/value, using inclusion of the search term.
+        // For example, searching for employer "Enterprise" will include results with "Enterprise Holdings, Inc".
+        public static List<Dictionary<string, string>> FindByColumnAndValue(
+            string column,
+            string value
+        )
         {
-            // Load data, if not already loaded
             LoadData();
 
             List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>();
@@ -92,12 +81,9 @@ namespace TechJobsConsoleAutograded6
             return jobs;
         }
 
-        /*
-         * Load and parse data from job_data.csv
-         */
+        // Load and parse data from job_data.csv
         private static void LoadData()
         {
-
             if (IsDataLoaded)
             {
                 return;
@@ -136,10 +122,12 @@ namespace TechJobsConsoleAutograded6
             IsDataLoaded = true;
         }
 
-        /*
-         * Parse a single line of a CSV file into a string array
-         */
-        private static string[] CSVRowToStringArray(string row, char fieldSeparator = ',', char stringSeparator = '\"')
+        // Parse a single line of a CSV file into a string array
+        private static string[] CSVRowToStringArray(
+            string row,
+            char fieldSeparator = ',',
+            char stringSeparator = '\"'
+        )
         {
             bool isBetweenQuotes = false;
             StringBuilder valueBuilder = new StringBuilder();
