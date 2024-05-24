@@ -8,11 +8,12 @@ namespace TechJobsConsoleAutograded6
         static List<Dictionary<string, string>> AllJobs = new List<Dictionary<string, string>>();
         static bool IsDataLoaded = false;
 
-        public static List<Dictionary<string,string>> FindAll()
+        public static List<Dictionary<string, string>> FindAll()
         {
             LoadData();
-            return AllJobs;
+            return new List<Dictionary<string, string>>(AllJobs);
         }
+
         public static List<string> FindAll(string column)
         {
             LoadData();
@@ -28,6 +29,9 @@ namespace TechJobsConsoleAutograded6
                     values.Add(aValue);
                 }
             }
+
+            // Sort the values alphabetically
+            values.Sort();
 
             return values;
         }
