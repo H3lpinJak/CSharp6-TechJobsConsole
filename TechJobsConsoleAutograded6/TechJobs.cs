@@ -56,6 +56,17 @@ namespace TechJobsConsoleAutograded6
                         }
                     }
                 }
+                else if (actionChoice.Equals("search"))
+                {
+                    string columnChoice = "employer"; // Search by employer
+                    Console.WriteLine(Environment.NewLine + "Search term (employer): ");
+                    string searchTerm = Console.ReadLine().ToLower();
+                    List<Dictionary<string, string>> searchResults = JobData.FindByColumnAndValue(
+                        columnChoice,
+                        searchTerm
+                    );
+                    PrintJobs(searchResults);
+                }
                 else
                 {
                     string columnChoice = GetUserSelection("Search", columnChoices);
@@ -79,7 +90,6 @@ namespace TechJobsConsoleAutograded6
                             }
                         );
 
-                        //Fix line 68 - 70. Searching for Ruby for all field and only finding 2 out of 4 results.
                         PrintJobs(searchResults);
                     }
                     else
@@ -91,6 +101,7 @@ namespace TechJobsConsoleAutograded6
                 }
             }
         }
+
         public string GetUserSelection(string choiceHeader, Dictionary<string, string> choices)
         {
             int choiceIdx;
