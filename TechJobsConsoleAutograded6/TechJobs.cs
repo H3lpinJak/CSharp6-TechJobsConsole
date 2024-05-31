@@ -1,4 +1,5 @@
-﻿using TechJobsConsoleAutograded6;
+﻿using System;
+using System.Collections.Generic;
 
 namespace TechJobsConsoleAutograded6
 {
@@ -76,19 +77,7 @@ namespace TechJobsConsoleAutograded6
 
                     if (columnChoice.Equals("all"))
                     {
-                        List<Dictionary<string, string>> searchResults = JobData.FindAll(
-                            (Dictionary<string, string> item) =>
-                            {
-                                foreach (KeyValuePair<string, string> field in item)
-                                {
-                                    if (field.Value.ToLower().Contains(searchTerm))
-                                    {
-                                        return true;
-                                    }
-                                }
-                                return false;
-                            }
-                        );
+                        List<Dictionary<string, string>> searchResults = JobData.FindByValue(searchTerm);
 
                         PrintJobs(searchResults);
                     }
@@ -100,6 +89,21 @@ namespace TechJobsConsoleAutograded6
                     }
                 }
             }
+        }
+
+        private bool FilterBySearchTerm(Dictionary<string, string> item)
+        {
+            Console.WriteLine(Environment.NewLine + "Search term: ");
+            string searchTerm = Console.ReadLine().ToLower();
+
+            foreach (KeyValuePair<string, string> field in item)
+            {
+                if (field.Value.ToLower().Contains(searchTerm))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public string GetUserSelection(string choiceHeader, Dictionary<string, string> choices)
@@ -134,7 +138,7 @@ namespace TechJobsConsoleAutograded6
                 }
 
                 string input = Console.ReadLine();
-                if (input.Equals("x") || input.Equals("X"))
+                if (input.Equals("x", StringComparison.OrdinalIgnoreCase))
                 {
                     return null;
                 }
