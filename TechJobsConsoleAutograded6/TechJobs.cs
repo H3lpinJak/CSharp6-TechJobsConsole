@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Text;
 
 namespace TechJobsConsoleAutograded6
 {
@@ -56,17 +56,6 @@ namespace TechJobsConsoleAutograded6
                             Console.WriteLine(item);
                         }
                     }
-                }
-                else if (actionChoice.Equals("search"))
-                {
-                    string columnChoice = "employer"; // Search by employer
-                    Console.WriteLine(Environment.NewLine + "Search term (employer): ");
-                    string searchTerm = Console.ReadLine().ToLower();
-                    List<Dictionary<string, string>> searchResults = JobData.FindByColumnAndValue(
-                        columnChoice,
-                        searchTerm
-                    );
-                    PrintJobs(searchResults);
                 }
                 else
                 {

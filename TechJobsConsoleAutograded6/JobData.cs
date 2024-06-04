@@ -40,23 +40,24 @@ namespace TechJobsConsoleAutograded6
         {
             LoadData();
 
+            string lowerCaseValue = value.ToLower();
+
             List<Dictionary<string, string>> foundJobs = new List<Dictionary<string, string>>();
 
             foreach (Dictionary<string, string> job in AllJobs)
             {
-                bool jobFound = false;
+                bool found = false;
 
-                foreach (KeyValuePair<string, string> pair in job)
+                foreach (KeyValuePair<string, string> kvp in job)
                 {
-                    // Case-insensitive comparison
-                    if (pair.Value.Equals(value, StringComparison.OrdinalIgnoreCase))
+                    if (kvp.Value.ToLower().Contains(lowerCaseValue))
                     {
-                        jobFound = true;
+                        found = true;
                         break;
                     }
                 }
 
-                if (jobFound && !foundJobs.Any(j => j.SequenceEqual(job)))
+                if (found)
                 {
                     foundJobs.Add(job);
                 }
