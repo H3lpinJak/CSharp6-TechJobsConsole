@@ -147,7 +147,7 @@ namespace TechJobsConsoleAutograded6
             return choiceKeys[choiceIdx];
         }
 
-        // TODO: complete the PrintJobs method.
+        
         public void PrintJobs(List<Dictionary<string, string>> someJobs)
         {
             // Check if there are any jobs to print
@@ -156,7 +156,14 @@ namespace TechJobsConsoleAutograded6
                 Console.WriteLine("No results");
                 return;
             }
-
+            foreach (Dictionary<string, string> job in someJobs)
+            {
+                foreach (KeyValuePair<string, string> kvp in job)
+                {
+                    Console.WriteLine($"{kvp.Key}: {kvp.Value}");
+                }
+                    Console.WriteLine(); //Added this for Spacing
+            }
             // Iterate through each job dictionary and print its attributes
             foreach (Dictionary<string, string> job in someJobs)
             {
